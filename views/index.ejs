@@ -1,0 +1,65 @@
+<html>
+    <head>
+    <title></title>
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script type ="text/javascript">
+             $(document). ready(function (){
+                // this triggers the connection event in our server!
+                var socket  = io.connect();
+                // we'll write all the socket stuff after the above line!
+
+                //handle a button click
+                $( 'button').click(function (){
+                    socket.emit( "button_clicked", {reason:  "because I want to learn about sockets!"});
+                });
+                //handle the form being submitted
+                $( '#surveyForm').submit(function (){
+                    //socket.emit( "posting_form", {reason:  "I clicked submit!"});
+                        var fname = $("#nameId").val();
+                        var location = $("#locationId").val();
+                        var language = $("#languageId").val();
+                        var phone = $("#commentId").val();
+                    user_info={name: fname, location: location, language:language, phone:phone}
+                    console.log(fname);
+                    console.log(user_info);
+                    socket.emit( "posting_form", {user:  user_info});
+                    return false;
+                });
+
+                //end emits, listen for server response.
+
+                socket.on( 'server_response', function (data){
+                    console.log( 'The server says: '  + data.response);
+                });
+
+            })
+        </script>
+    </head>
+    <body>
+        <!-- <form id = 'surveyForm' action='result' method='post'> -->
+        <form id = 'surveyForm'>
+            <p>Your Name:<input type='text' name='name' id = 'nameId'></p>
+            <p>Dojo Location:  
+                <select name="location" id = 'locationId'>
+                    <option value="San Jose">San Jose</option>
+                    <option value="Seattle">Seattle</option>
+                </select>
+            </p>
+            <p>Favorite Language:
+                <select name="language" id = 'languageId'>
+                    <option value="Python">Python</option>
+                    <option value="JavaScript">JavaScript</option>
+                </select>
+                </p>
+            <p>Comment (optional):
+                <textarea name="comment" id = 'commentId' rows="5" cols="20"></textarea>
+            
+            <input type='submit' value='Submit'></p>
+        </form>
+        <button>I AM A BUTTON!</button>
+        <!-- web page goes here -->
+    </body>
+    </html>
+    
