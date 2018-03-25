@@ -34,8 +34,10 @@
                     console.log( 'The server says: '  + data.response);
                 });
                 socket.on( 'server_form_response', function (data){
-//                    console.log('The server says')
                     $("#response").html(`You emmitted this info to the server ${JSON.stringify(data.response)}`);
+                });
+                socket.on( 'random_number', function (data){
+                    $("#response").append(`<h4>Your lucky number emmitted by the server is ${data.response}</h4>`);
                 });
 
 
@@ -43,8 +45,8 @@
         </script>
     </head>
     <body>
-        <!-- <form id = 'surveyForm' action='result' method='post'> -->
-            <div id='response'></div>
+       
+        <div id='response'></div>
         <form id = 'surveyForm'>
             <p>Your Name:<input type='text' name='name' id = 'nameId'></p>
             <p>Dojo Location:  
@@ -64,7 +66,7 @@
             
             <input type='submit' value='Submit'></p>
         </form>
-        <button>I AM A BUTTON!</button>
+        <!-- <button>I AM A BUTTON!</button> -->
         <!-- web page goes here -->
     </body>
     </html>
