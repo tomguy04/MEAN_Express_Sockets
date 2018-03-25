@@ -20,11 +20,11 @@
                         var fname = $("#nameId").val();
                         var location = $("#locationId").val();
                         var language = $("#languageId").val();
-                        var phone = $("#commentId").val();
-                    user_info={name: fname, location: location, language:language, phone:phone}
+                        var comment = $("#commentId").val();
+                    //var user_info={name: fname, location: location, language:language, comment:comment}
                     console.log(fname);
-                    console.log(user_info);
-                    socket.emit( "posting_form", {user:  user_info});
+                    //console.log(user_info);
+                    socket.emit( "posting_form", {name: fname, location: location, language:language, comment:comment});
                     return false;
                 });
 
@@ -33,12 +33,18 @@
                 socket.on( 'server_response', function (data){
                     console.log( 'The server says: '  + data.response);
                 });
+                socket.on( 'server_form_response', function (data){
+//                    console.log('The server says')
+                    $("#response").html(`You emmitted this info to the server ${JSON.stringify(data.response)}`);
+                });
+
 
             })
         </script>
     </head>
     <body>
         <!-- <form id = 'surveyForm' action='result' method='post'> -->
+            <div id='response'></div>
         <form id = 'surveyForm'>
             <p>Your Name:<input type='text' name='name' id = 'nameId'></p>
             <p>Dojo Location:  

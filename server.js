@@ -44,7 +44,10 @@ io.sockets.on('connection', function (socket) { //when a client connects, this c
         //the result route is performed
         console.log( 'Someone clicked a button!  Reason: '  + data.reason);
         //EMIT
+        //roll up the data from the form and send it back to the client.
+        
         socket.emit( 'server_response', {response:  "sockets are the best!"});
+
         //BROADCAST:
         socket.broadcast.emit( 'server_response',{response: "my_broadcast_event"});
         //FULL BROADCAST:
@@ -53,10 +56,11 @@ io.sockets.on('connection', function (socket) { //when a client connects, this c
 
     socket.on( "posting_form", function (data){
         //console log the user_info object sent from the client
-        console.log( `Someone submitted!  ${data.user.name}`);
+        //console.log( `Someone submitted!  ${data.user.name}`);
         //console.log( 'Someone submitted!  Reason: '  + data.reason);
         //EMIT
-        socket.emit( 'server__form_response', {response:  "you submitted the form!"});
+        console.log(`Going to send THIS back  ${data}`)
+        socket.emit( 'server_form_response', {response:  data});
         socket.emit( 'server_response', {response:  "you submitted the form!"});
         //BROADCAST:
         socket.broadcast.emit( 'server_response',{response: "someone ELSE submitted the form"});
